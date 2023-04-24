@@ -1,0 +1,49 @@
+<style>
+	* {
+		font-family: monospace;
+		/*font-family: roman;*/
+	}
+	date {
+		color: grey;
+		/*display: block;*/
+	}
+	code {
+		background-color: #cccccc;
+	}
+</style>
+
+<h1>A semi serious blog</h1>
+
+<body>
+
+<h2>Posts</h2>
+
+<h3 id=why-no-framework><a href=#why-no-framework>Why I am not using a "framework"</a></h3>
+<date>April 24, 2023</date>
+
+
+<p>These days, everyone (who isn't using Wordpress) is using Jekyll, Hugo or some kind of markdown-based blog generator.</p>
+
+<p>Many devs would spend days building out a blog framework and have their first blog entry about the blog framework and then.. almost no other entries for 3 months?</p>
+
+<p>So I am here instead writing a blog in plain HTML/CSS/JS (currently there's no JS), with the first entry being about why I don't have a framework then maybe no other entries for another 3 months. Who knows.</p>
+
+<p>Frameworks add abstraction to manual controls. The "source of truth", at the end of the day, is what's sent from the server to your browser. The built HTML code. Often with 500 different javascript libraries and CSS map files, in the case of big frontend frameworks. They come with abstracted ways to do very straight forward things that HTML allows you to do, even just for including an image.</p>
+
+<p>Writing plain HTML, I can control absolutely every last element without being "hacky" to bypass those "features".</p>
+
+<p>But when it comes to blogs, the presentation matters way less than the content - the fact that when you load a website nowadays and 90% of it is actually Javascript dependencies and boiletplated crap and only 10% is the actual content is messed up.</p>
+
+<p>We have insanely fast computers and phones nowadays with a massive amount of computing power. We can do so much with it - yet we are stuck loading websites that take more than 5000 milliseconds because we don't care about our footprint. We don't care about the final impact, the actual code that will be transferred across submarine cables from North Virginia to thousands of locations across the world, millions of times a day.</p>
+
+<p>That's why I am handwriting my website. I can run <code>wc index.html</code> on my page and it will be less than a 50MB bundle of npm packages.</p>
+
+<code>----------------------------</code>
+
+
+
+<!-- <hr> -->
+
+<code>----------[ EOF ]-----------</code>
+
+</body>
