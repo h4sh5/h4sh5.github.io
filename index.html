@@ -33,6 +33,39 @@
 
 <section>
 	<h2 id=posts>Posts</h2>
+	<code>----------------------------</code>
+
+	<article>
+
+	<h3 id=dependable-dependecies><a href=#dependable-dependecies>On dependable dependency systems</a></h3>
+
+	<date>April 2023</date>
+
+	<p>To have a dependable dependency/packaging/third party libaries system, you need at least these things:</p>
+
+	<ol>
+	<li>versioning</li>
+	<li>a parseable file that has all (including recursive) dependencies, versions and how they relate to each other</li>
+	<li>a way to easily verify where the code of the dependency comes from (and who wrote it)</li>
+	<li>a way to verify that it hasn't been tampered with (checksums)</li>
+	<li>a way to reproduce builds that can be verified</li>
+	</ol>
+
+	<p>Let's start with Python's pip. Pip (pypi) does not have lockfiles; <code>requirements.txt</code> does not come with recursive dependencies and there are no checksums to verify anything. Pypi's "link to github" or other links project version control/websites are self-published by the author, separate to the actual versions of the published packages. To make things worse, typosquatted packages can have the same link to git and the official project websites, have the same descriptions, but actual malware when you run pip install. Pip does not have any kind of 'reproducible builds' for wheels and eggs either. That's why when using pip, using virtual environments (<code>virtualenv</code>, <code>python -m venv</code>) is almost a must; otherwise, use more modern dependency management systems like <a target=_blank href=https://github.com/python-poetry/poetry>poetry</a>.</p>
+
+	<p>What about javascript's npm? The situation looks a bit better. There are lockfiles alongside dependency description files, <code>package.json</code> and <code>package-lock.json</code>, and package-lock.json does contain checksums for verification. The package-lock.json file can be parsed to generate an SBOM (Software bill of materials), since it includes recursive dependencies and versions of every package that needs to be pulled in. However, npm packages are still self-published; there is no verifiable link between the name of the package (which is what really gets installed and executed) and source code control (like git). A very similar situation exists for Ruby's <code>Gemfile</code> and <code>Gemfile.lock</code>, as well as Rust's Cargo.</p>
+
+	<p>Java is a mess. For Maven, lockfiles do not exist, and there is currently no way to generate lists of all dependencies without external tools like <code>spdx-sbom-generator</code>. Same goes for Gradle, which needs something like <code>cyclonedx-gradle-plugin</code>. Most gradle projects are also distributed with a wrapper script for gradle itself, <code>gradlew[.bat]</code>. God knows if that's been modified.</p>
+
+	<p>The problem here is centralized package repositories/registries. They need hosting, management, which means they often belong to big corporations; and they are usually ripe with malware. They are a giant target for both cyber criminals and greedy corporations; the left-pad and kik incident where npm forcibly transferred the ownership of a package name from an open-source developer to a messaging app company shows that legal action on centralized repositories can all of the sudden break half the web.</p>
+
+	<p>The good example I want to mention here is Golang. In golang, you directly reference a URL-like format (github.com/username/repo) for the dependency, and its version is in <code>go.mod</code> and checksums in <code>go.sum</code>. This directly ties the source code repository with the package and the account that wrote it. <a target=_blank href=https://hackernoon.com/building-reproducible-verifiable-binaries-with-golang>Reproducible builds are possible</a> if the same version of go is used, with <code>-trimpath</code> to remove the build path and <code>-ldflags=-buildid=</code> to stop the buildid from changing.</p>
+
+	<p>The software landscape moves too fast and is too dangerous for bad dependency systems; dependency hell is everywhere, but it doesn't have to be. With dependency systems that support lockfiles, checksums and reprodicible builds, your code projects will be more secure and more maintainable.</p>
+
+	</article>
+	
+	
 
 	<code>----------------------------</code>
 
@@ -67,37 +100,6 @@
 	<p>We have insanely fast computers and phones nowadays with a massive amount of computing power. We can do so much with it - yet we are stuck loading websites that take more than 5000 milliseconds because we don't care about our footprint. We don't care about the final impact, the actual code that will be transferred across submarine cables from North Virginia to thousands of locations across the world, millions of times a day.</p>
 
 	<p>That's why I am handwriting my website. I can run <code>wc index.html</code> on my page and it will be less than a 50MB bundle of npm packages.</p>
-
-	</article>
-	<code>----------------------------</code>
-
-	<article>
-
-	<h3 id=dependable-dependecies><a href=#dependable-dependecies>On dependable dependency systems</a></h3>
-
-	<date>April 2023</date>
-
-	<p>To have a dependable dependency/packaging/third party libaries system, you need at least these things:</p>
-
-	<ol>
-	<li>versioning</li>
-	<li>a parseable file that has all (including recursive) dependencies, versions and how they relate to each other</li>
-	<li>a way to easily verify where the code of the dependency comes from (and who wrote it)</li>
-	<li>a way to verify that it hasn't been tampered with (checksums)</li>
-	<li>a way to reproduce builds that can be verified</li>
-	</ol>
-
-	<p>Let's start with Python's pip. Pip (pypi) does not have lockfiles; <code>requirements.txt</code> does not come with recursive dependencies and there are no checksums to verify anything. Pypi's "link to github" or other links project version control/websites are self-published by the author, separate to the actual versions of the published packages. To make things worse, typosquatted packages can have the same link to git and the official project websites, have the same descriptions, but actual malware when you run pip install. Pip does not have any kind of 'reproducible builds' for wheels and eggs either. That's why when using pip, using virtual environments (<code>virtualenv</code>, <code>python -m venv</code>) is almost a must; otherwise, use more modern dependency management systems like <a target=_blank href=https://github.com/python-poetry/poetry>poetry</a>.</p>
-
-	<p>What about javascript's npm? The situation looks a bit better. There are lockfiles alongside dependency description files, <code>package.json</code> and <code>package-lock.json</code>, and package-lock.json does contain checksums for verification. The package-lock.json file can be parsed to generate an SBOM (Software bill of materials), since it includes recursive dependencies and versions of every package that needs to be pulled in. However, npm packages are still self-published; there is no verifiable link between the name of the package (which is what really gets installed and executed) and source code control (like git). A very similar situation exists for Ruby's <code>Gemfile</code> and <code>Gemfile.lock</code>, as well as Rust's Cargo.</p>
-
-	<p>Java is a mess. For Maven, lockfiles do not exist, and there is currently no way to generate lists of all dependencies without external tools like <code>spdx-sbom-generator</code>. Same goes for Gradle, which needs something like <code>cyclonedx-gradle-plugin</code>. Most gradle projects are also distributed with a wrapper script for gradle itself, <code>gradlew[.bat]</code>. God knows if that's been modified.</p>
-
-	<p>The problem here is centralized package repositories/registries. They need hosting, management, which means they often belong to big corporations; and they are usually ripe with malware. They are a giant target for both cyber criminals and greedy corporations; the left-pad and kik incident where npm forcibly transferred the ownership of a package name from an open-source developer to a messaging app company shows that legal action on centralized repositories can all of the sudden break half the web.</p>
-
-	<p>The good example I want to mention here is Golang. In golang, you directly reference a URL-like format (github.com/username/repo) for the dependency, and its version is in <code>go.mod</code> and checksums in <code>go.sum</code>. This directly ties the source code repository with the package and the account that wrote it. <a target=_blank href=https://hackernoon.com/building-reproducible-verifiable-binaries-with-golang>Reproducible builds are possible</a> if the same version of go is used, with <code>-trimpath</code> to remove the build path and <code>-ldflags=-buildid=</code> to stop the buildid from changing.</p>
-
-	<p>The software landscape moves too fast and is too dangerous for bad dependency systems; dependency hell is everywhere, but it doesn't have to be. With dependency systems that support lockfiles, checksums and reprodicible builds, your code projects will be more secure and more maintainable.</p>
 
 	</article>
 	
