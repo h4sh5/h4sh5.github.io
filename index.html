@@ -31,61 +31,79 @@
 
 <body>
 
-<h2 id=posts>Posts</h2>
+<section>
+	<h2 id=posts>Posts</h2>
 
-<h3 id=why-no-framework><a href=#why-no-framework>Why I am not using a "framework"</a></h3>
-<date>April 2023</date>
+	<code>----------------------------</code>
 
+	<article>
+	<h3 id=on-ctrl-f><a href=#on-ctrl-f>On control-F</a></h3>
 
-<p>These days, everyone (who isn't using Wordpress) is using Jekyll, Hugo or some kind of markdown-based blog generator.</p>
+	<p>I am often surprised by the number of people who don't intuitively use Ctrl+F when browsing the web. In many browsers, where "Highlight All" is something you can do when doing Ctrl+F (or Cmd+F if you're on mac), you can do some very useful ad-hoc thematic analysis of articles.</p>
 
-<p>Many devs would spend days building out a blog framework and have their first blog entry about the blog framework and then.. almost no other entries for 3 months?</p>
+	<p>For example, if you're reading an article on a review of a certain social media platform but there's no mention of the word "ads" or "advertisement", that could be an intentional omission, or something the author forgot to mention; if it's an article about the COVID pandemic and how vaccines are bad for your kids but there's no single mention of the word "study" or "studies", then where are they getting the proof from?</p>
 
-<p>So I am here instead writing a blog in plain HTML/CSS/JS (currently there's no JS), with the first entry being about why I don't have a framework then maybe no other entries for another 3 months. Who knows.</p>
+	<p>If the website you are using is too cluttered (or have too many irrelevant annoying things like ads), then use reader mode by doing Ctrl+Alt+R on Linux/Windows to toggle to a much easier to view interface with consistent fonts. Most websites that have semantic HTML tags wrapping elements like <code>&ltsection&gt</code> and <code>&ltarticle&gt</code> should support reader mode.</p>
+	</article>
+	<code>----------------------------</code>
 
-<p>Frameworks add abstraction to manual controls. The "source of truth", at the end of the day, is what's sent from the server to your browser. The built HTML code. Often with 500 different javascript libraries and CSS map files, in the case of big frontend frameworks. They come with abstracted ways to do very straight forward things that HTML allows you to do, even just for including an image.</p>
-
-<p>Writing plain HTML, I can control absolutely every last element without being "hacky" to bypass those "features".</p>
-
-<p>But when it comes to blogs, the presentation matters way less than the content - the fact that when you load a website nowadays and 90% of it is actually Javascript dependencies and boiletplated crap and only 10% is the actual content is messed up.</p>
-
-<p>We have insanely fast computers and phones nowadays with a massive amount of computing power. We can do so much with it - yet we are stuck loading websites that take more than 5000 milliseconds because we don't care about our footprint. We don't care about the final impact, the actual code that will be transferred across submarine cables from North Virginia to thousands of locations across the world, millions of times a day.</p>
-
-<p>That's why I am handwriting my website. I can run <code>wc index.html</code> on my page and it will be less than a 50MB bundle of npm packages.</p>
-
-<code>----------------------------</code>
+	<article>
+	<h3 id=why-no-framework><a href=#why-no-framework>Why I am not using a "framework"</a></h3>
+	<date>April 2023</date>
 
 
-<h3 id=dependable-dependecies><a href=#dependable-dependecies>On dependable dependency systems</a></h3>
+	<p>These days, everyone (who isn't using Wordpress) is using Jekyll, Hugo or some kind of markdown-based blog generator.</p>
 
-<date>April 2023</date>
+	<p>Many devs would spend days building out a blog framework and have their first blog entry about the blog framework and then.. almost no other entries for 3 months?</p>
 
-<p>To have a dependable dependency/packaging/third party libaries system, you need at least these things:</p>
+	<p>So I am here instead writing a blog in plain HTML/CSS/JS (currently there's no JS), with the first entry being about why I don't have a framework then maybe no other entries for another 3 months. Who knows.</p>
 
-<ol>
-<li>versioning</li>
-<li>a parseable file that has all (including recursive) dependencies, versions and how they relate to each other</li>
-<li>a way to easily verify where the code of the dependency comes from (and who wrote it)</li>
-<li>a way to verify that it hasn't been tampered with (checksums)</li>
-<li>a way to reproduce builds that can be verified</li>
-</ol>
+	<p>Frameworks add abstraction to manual controls. The "source of truth", at the end of the day, is what's sent from the server to your browser. The built HTML code. Often with 500 different javascript libraries and CSS map files, in the case of big frontend frameworks. They come with abstracted ways to do very straight forward things that HTML allows you to do, even just for including an image.</p>
 
-<p>Let's start with Python's pip. Pip (pypi) does not have lockfiles; <code>requirements.txt</code> does not come with recursive dependencies and there are no checksums to verify anything. Pypi's "link to github" or other links project version control/websites are self-published by the author, separate to the actual versions of the published packages. To make things worse, typosquatted packages can have the same link to git and the official project websites, have the same descriptions, but actual malware when you run pip install. Pip does not have any kind of 'reproducible builds' for wheels and eggs either. That's why when using pip, using virtual environments (<code>virtualenv</code>, <code>python -m venv</code>) is almost a must; otherwise, use more modern dependency management systems like <a target=_blank href=https://github.com/python-poetry/poetry>poetry</a>.</p>
+	<p>Writing plain HTML, I can control absolutely every last element without being "hacky" to bypass those "features".</p>
 
-<p>What about javascript's npm? The situation looks a bit better. There are lockfiles alongside dependency description files, <code>package.json</code> and <code>package-lock.json</code>, and package-lock.json does contain checksums for verification. The package-lock.json file can be parsed to generate an SBOM (Software bill of materials), since it includes recursive dependencies and versions of every package that needs to be pulled in. However, npm packages are still self-published; there is no verifiable link between the name of the package (which is what really gets installed and executed) and source code control (like git). A very similar situation exists for Ruby's <code>Gemfile</code> and <code>Gemfile.lock</code>, as well as Rust's Cargo.</p>
+	<p>But when it comes to blogs, the presentation matters way less than the content - the fact that when you load a website nowadays and 90% of it is actually Javascript dependencies and boiletplated crap and only 10% is the actual content is messed up.</p>
 
-<p>Java is a mess. For Maven, lockfiles do not exist, and there is currently no way to generate lists of all dependencies without external tools like <code>spdx-sbom-generator</code>. Same goes for Gradle, which needs something like <code>cyclonedx-gradle-plugin</code>. Most gradle projects are also distributed with a wrapper script for gradle itself, <code>gradlew[.bat]</code>. God knows if that's been modified.</p>
+	<p>We have insanely fast computers and phones nowadays with a massive amount of computing power. We can do so much with it - yet we are stuck loading websites that take more than 5000 milliseconds because we don't care about our footprint. We don't care about the final impact, the actual code that will be transferred across submarine cables from North Virginia to thousands of locations across the world, millions of times a day.</p>
 
-<p>The problem here is centralized package repositories/registries. They need hosting, management, which means they often belong to big corporations; and they are usually ripe with malware. They are a giant target for both cyber criminals and greedy corporations; the left-pad and kik incident where npm forcibly transferred the ownership of a package name from an open-source developer to a messaging app company shows that legal action on centralized repositories can all of the sudden break half the web.</p>
+	<p>That's why I am handwriting my website. I can run <code>wc index.html</code> on my page and it will be less than a 50MB bundle of npm packages.</p>
 
-<p>The good example I want to mention here is Golang. In golang, you directly reference a URL-like format (github.com/username/repo) for the dependency, and its version is in <code>go.mod</code> and checksums in <code>go.sum</code>. This directly ties the source code repository with the package and the account that wrote it. <a target=_blank href=https://hackernoon.com/building-reproducible-verifiable-binaries-with-golang>Reproducible builds are possible</a> if the same version of go is used, with <code>-trimpath</code> to remove the build path and <code>-ldflags=-buildid=</code> to stop the buildid from changing.</p>
+	</article>
+	<code>----------------------------</code>
 
-<p>The software landscape moves too fast and is too dangerous for bad dependency systems; dependency hell is everywhere, but it doesn't have to be. With dependency systems that support lockfiles, checksums and reprodicible builds, your code projects will be more secure and more maintainable.</p>
+	<article>
 
-<code>----------------------------</code>
+	<h3 id=dependable-dependecies><a href=#dependable-dependecies>On dependable dependency systems</a></h3>
 
-<!-- <hr> -->
+	<date>April 2023</date>
 
+	<p>To have a dependable dependency/packaging/third party libaries system, you need at least these things:</p>
+
+	<ol>
+	<li>versioning</li>
+	<li>a parseable file that has all (including recursive) dependencies, versions and how they relate to each other</li>
+	<li>a way to easily verify where the code of the dependency comes from (and who wrote it)</li>
+	<li>a way to verify that it hasn't been tampered with (checksums)</li>
+	<li>a way to reproduce builds that can be verified</li>
+	</ol>
+
+	<p>Let's start with Python's pip. Pip (pypi) does not have lockfiles; <code>requirements.txt</code> does not come with recursive dependencies and there are no checksums to verify anything. Pypi's "link to github" or other links project version control/websites are self-published by the author, separate to the actual versions of the published packages. To make things worse, typosquatted packages can have the same link to git and the official project websites, have the same descriptions, but actual malware when you run pip install. Pip does not have any kind of 'reproducible builds' for wheels and eggs either. That's why when using pip, using virtual environments (<code>virtualenv</code>, <code>python -m venv</code>) is almost a must; otherwise, use more modern dependency management systems like <a target=_blank href=https://github.com/python-poetry/poetry>poetry</a>.</p>
+
+	<p>What about javascript's npm? The situation looks a bit better. There are lockfiles alongside dependency description files, <code>package.json</code> and <code>package-lock.json</code>, and package-lock.json does contain checksums for verification. The package-lock.json file can be parsed to generate an SBOM (Software bill of materials), since it includes recursive dependencies and versions of every package that needs to be pulled in. However, npm packages are still self-published; there is no verifiable link between the name of the package (which is what really gets installed and executed) and source code control (like git). A very similar situation exists for Ruby's <code>Gemfile</code> and <code>Gemfile.lock</code>, as well as Rust's Cargo.</p>
+
+	<p>Java is a mess. For Maven, lockfiles do not exist, and there is currently no way to generate lists of all dependencies without external tools like <code>spdx-sbom-generator</code>. Same goes for Gradle, which needs something like <code>cyclonedx-gradle-plugin</code>. Most gradle projects are also distributed with a wrapper script for gradle itself, <code>gradlew[.bat]</code>. God knows if that's been modified.</p>
+
+	<p>The problem here is centralized package repositories/registries. They need hosting, management, which means they often belong to big corporations; and they are usually ripe with malware. They are a giant target for both cyber criminals and greedy corporations; the left-pad and kik incident where npm forcibly transferred the ownership of a package name from an open-source developer to a messaging app company shows that legal action on centralized repositories can all of the sudden break half the web.</p>
+
+	<p>The good example I want to mention here is Golang. In golang, you directly reference a URL-like format (github.com/username/repo) for the dependency, and its version is in <code>go.mod</code> and checksums in <code>go.sum</code>. This directly ties the source code repository with the package and the account that wrote it. <a target=_blank href=https://hackernoon.com/building-reproducible-verifiable-binaries-with-golang>Reproducible builds are possible</a> if the same version of go is used, with <code>-trimpath</code> to remove the build path and <code>-ldflags=-buildid=</code> to stop the buildid from changing.</p>
+
+	<p>The software landscape moves too fast and is too dangerous for bad dependency systems; dependency hell is everywhere, but it doesn't have to be. With dependency systems that support lockfiles, checksums and reprodicible builds, your code projects will be more secure and more maintainable.</p>
+
+	</article>
+	
+
+	<!-- <hr> -->
+</section>
 <code>----------[ EOF ]-----------</code>
 
 </body>
