@@ -86,6 +86,52 @@
 	</article>
 
 	<article>
+		<h3 id=ip-dns-phone-numbers-shaped-internet-security-and-freedom><a href=#ip-dns-phone-numbers-shaped-internet-security-and-freedom>DNS, IP, phone numbers and how they shaped internet security and freedom</a></h3>
+
+		<date>May 2023</date>
+
+		<p>There was a time before DNS (Domain Name System, the thing that lets you type <code>google.com</code> into your browser bar and get the website to load). DNS was introduced because there was a lot of IP (v4) addresses to remember; DNS is a fragile and insecure system. Now it's the backbone of the internet. It's impossible to do much without DNS. </p>
+		<p>Or is it? The Internal Protocol (IP) was born long after telecommunication. Remember phone numbers? That's right, we still use them! There are some fundamental differences between telephones and IP that I believe have shaped the internet and business model of internet companies today:
+		<ol>
+		<li><strong>anyone can reach a phone number; not anyone can reach an IP address</strong> because of NAT (Network Address Translation) due to the way that TCP/UDP ports are not forwarded.</li>
+		<li><strong>anyone can register for a static number</strong> (ever heard of a dynamic phone number? that would be <strong>so dumb</strong>!); it's really hard to get a static IP address. But just imagine if your phone number changed at random times, and there has to be this weird, decentralised system to keep every one of your friends updated about it (yep, that's DNS)</li>
+		<li><strong>phone numbers are not attached to a globally public name</strong> (sure, you can put it on an advertisement, business card or poster; but what the other person saves your number as on their contact list is entirely up to them)</p></li>
+	</ol>
+
+
+		<p>Let's first discuss point one. The fact that not everyone can reach something behind an IP lead to the boom of online hosting and cloud services. One could easily setup a home phone, and even an answering machine, to receive calls; but if you want to host a website at home, good luck. You will need to see if your ISP (internet service provider) has given you a static or dynamic IP address (usually it's dynamic); you will need to forward a port from your network to the ISP; you will need to buy a domain name, and setup HTTPS certificates. The whole thing is really complicated to someone who hasn't done it before, and a lot of the time you would just want to get a hosting provider to do it for you. </p>
+		<p>The initial scene of web hosting later lead to the cloud as we know it today, as well as the fact that now to talk to people online we use third-party platforms like Meta, Twitter and crap like that. Those internet giants earn money by mining your data and giving you ads. Why is it so hard now to talk to someone online without a third party?</p>
+		<p>Now point two. Imagine if your phone number changed at random intervals, because the world has ran out of phone numbers. How dumb would that be! Having dynamic IPs on the internet further lead to the widespread use of DNS. With something like a Dynamic DNS service, you can update the DNS record to match your real IP uscraping an automatic update agent. But if that breaks, or if you don't have a domain name, then you're screwed. Of course, this only applies if you're the person hosting the server/website; if you're just visiting, that won't really break anything, except the fact that IP addresses are much harder to attribute to the end party when you are reading the web server logs. If you're just answer your phone, you have an idea who your friends calling you are and what their number is without having them to "login" to you, because usually one person has one unchanging phone number.</p>
+		<p>Point three relates a lot to security, phishing and spam. Let's suppose you have small business with a domain <code>bobthebaker.com</code> (purely fictional), to let users login to your site and order bread. All of a sudden, anyone could try to pretend to be you by registering similar domains like <code>bobbakes.com</code>, <code>bobthebakre.com</code>, <code>bobsbakery.com</code>, <code>bobthebaker.net</code> and so on. In a <strong>globally public</strong> namespace, anyone can register any domain. It becomes a competition. If you forgot to renew, someone could squat your domain and sell it to you for more. Have you ever been scared that someone else would try to register a very lookalike phone number to you and call your friends to scam them? Not exactly, right? </p>
+		<p>The concept of the phone book to have a verified two-way trust (if alice is calling bob, bob knows it's alice) doesn't exist on the internet world. If someone visits your website, it could be from anywhere. There is a disconnect between someone's login session (after they punch in a password that might have been compromised, with multi factor authentication that might've been bypassed using phishing), and their actual visiting origin (IP address because that's dynamic). And you can't really contact someone if they reach out to your server and does something dodgy without them manually providing you information that could be faked during signup.</p>
+
+		<h4><u>Security in the dialup age</u></h4>
+		<p>We did use to have phones sitting in front of computers, running dialup systems. Back then, because there was no NAT or firewalls, all those servers were reachable via phone lines, and you could "war-dial" - call up a huge range of numbers and record responses to see what was behind the number. This was not exactly a flaw of the phone system, but rather its intended purpose. People just weren't security conscious, and did not put things like authentication or allowlisting in front of these dialup systems.</p>
+		<p>Now, reconnaissance is done by enumerating DNS domains and sub-domains, as well as scanning massive ranges of IP address. Not that different from war-dialing, except because of how easy it is to use proxies, VPNs and cloud servers without offering your identity at all (unlike phone number registrations), you can do that easily without being traced. (Of course, many tricks existed back then to use relays/switches/other phone systems as a proxy)</p>
+
+
+		<h4><u>The constant third party risk</u></h4>
+		<p>Because so much of what we do on the internet now relies on third party hosting and platforms, there's always third party risk. All that signup is not only done once with your phone company, but 50 different SaaS platforms holding your PII; your data is now in 50 different places, with no centralized security. You don't know if/when your data was stolen. Even if you are a business, those rules still apply. I understand that's not an inherent problem introduced by the way IPv4 has turned out, but rather the way businesses operate; but from a personal user perspective, not being able to reach someone else on the internet without either 1) self hosting some server with a third party provider or 2) using a third party platform is rather ridiculous. Everything is connected, and yet, everything is behind a wall of mistrust.</p>
+
+
+		<h4><u>A way back?</u></h4>
+		<p>Putting control of data back in the user's hands starts not with enforced controls for third parties, but <strong>changing the model entirely so that people can talk to other people online without a third party</strong>. A way back to a system much like phone numbers, with at least these properties:
+		- anyone can register an identifier
+		- the identifer is not tied to a public/global name (to prevent lookalikes, also because there are lots of people with the same name in the world)
+		- the identifier is static and public (treated as itself, not behind a naming system like DNS)
+		- systems behind the identifier can be reached (no NAT / anything like that), unless specified
+		- the identifier is not too long, and easy to remember (for example, IPv6 is too long to remember; but an address / contact book could solve this issue)
+		- it can work over the internet (like an overlay network?), or existing infrastructure (like telephones)</p>
+		<p>Yes, it looks like "yet another third party platform"; perhaps a more elegant solution is we finally roll out IPv6 for good to eliminate NAT, and use a DNS system that assigns easily memorable names using the hash of the IP address (like <a href="https://github.com/h4sh5/humandns">humandns</a>, which you can see in action here to get a domain name for your IPv6 address when you visit <a href=http://ns1.humandns.org/rego>http://ns1.humandns.org/rego</a>.</p>
+		<p>If internet access (seeing others on the internet) is basically a human right, so should the ability to host servers and sites (making oneself be seen on the internet). The current client-&gt;server model gives too much power to service providers and internet giants; everyone should just be able to talk to each other and visit one another virtually, like how the phone system works.</p>
+
+	<code>----------------------------</code>
+
+	</article>
+
+
+
+	<article>
 		<h3 id=tips-for-problem-solving><a href=#tips-for-problem-solving>Tips for problem solving</a></h3>
 
 		<date>Some time in 2023</date>
