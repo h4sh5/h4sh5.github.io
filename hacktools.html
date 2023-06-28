@@ -1,0 +1,25 @@
+<script>
+	function req_with_headers() {
+		url = document.getElementById('url_box').value;
+		method = document.getElementById('method_box').value;
+		xhr=new XMLHttpRequest();
+		xhr.open(method, url);
+		xhr.send();
+		var data = xhr.responseText;
+		var status = xhr.status;
+		document.getElementById('resultsbox').innerText = `status: ${status}\ndata: ${data}`;
+	}
+</script>
+
+<p>URL box</p>
+<input id=url_box name=url>
+<button onclick="window.location=document.getElementById('url_box').value">Go!</button>
+
+<p>Send requests</p>
+<p>Method <input id=method_box placeholder="POST"></p>
+<div id=headerbox>
+		<button onclick="document.getElementById('headerbox').innerHTML+='header<input class=header_name>value<input class=header_value>'">Add</button>
+</div>
+<button onclick=req_with_headers()>Make request with headers!</button>
+
+<div id=resultsbox></div>
